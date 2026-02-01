@@ -152,3 +152,54 @@ model Feedback {
   @@index([userId])
   @@index([read])
 }
+
+model SavedQueue {
+  id        String           @id @default(cuid())
+  name      String
+  userId    String
+  guildId   String
+  tracks    SavedQueueTrack[]
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@unique([userId, guildId, name])
+  @@index([userId, guildId])
+}
+
+model SavedQueueTrack {
+  id           String     @id @default(cuid())
+  savedQueueId String
+  savedQueue   SavedQueue @relation(fields: [savedQueueId], references: [id], onDelete: Cascade)
+  title        String
+  author       String
+  duration     Int
+  uri          String
+  artworkUrl   String?
+  sourceName   String
+  position     Int
+
+  @@index([savedQueueId])
+}
+
+model LastQueue {
+  id        String          @id @default(cuid())
+  guildId   String          @unique
+  tracks    LastQueueTrack[]
+  savedAt   DateTime        @default(now())
+}
+
+model LastQueueTrack {
+  id          String    @id @default(cuid())
+  lastQueueId String
+  lastQueue   LastQueue @relation(fields: [lastQueueId], references: [id], onDelete: Cascade)
+  title       String
+  author      String
+  duration    Int
+  uri         String
+  artworkUrl  String?
+  sourceName  String
+  position    Int
+  wasPlaying  Boolean   @default(false)
+
+  @@index([lastQueueId])
+}
