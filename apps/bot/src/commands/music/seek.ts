@@ -39,7 +39,7 @@ export async function execute(
     return;
   }
 
-  player.seekTo(ms);
+  player.seek(ms);
   await interaction.reply({
     embeds: [successEmbed(`Seeked to **${formatDuration(ms)}**`)],
   });
