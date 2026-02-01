@@ -101,6 +101,7 @@ export const GuildSettingsScalarFieldEnum = {
   maxQueueSize: 'maxQueueSize',
   allowDuplicates: 'allowDuplicates',
   autoPlay: 'autoPlay',
+  twentyFourSeven: 'twentyFourSeven',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

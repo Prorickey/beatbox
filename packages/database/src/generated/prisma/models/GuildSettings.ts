@@ -42,6 +42,7 @@ export type GuildSettingsMinAggregateOutputType = {
   maxQueueSize: number | null
   allowDuplicates: boolean | null
   autoPlay: boolean | null
+  twentyFourSeven: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -54,6 +55,7 @@ export type GuildSettingsMaxAggregateOutputType = {
   maxQueueSize: number | null
   allowDuplicates: boolean | null
   autoPlay: boolean | null
+  twentyFourSeven: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -66,6 +68,7 @@ export type GuildSettingsCountAggregateOutputType = {
   maxQueueSize: number
   allowDuplicates: number
   autoPlay: number
+  twentyFourSeven: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -88,6 +91,7 @@ export type GuildSettingsMinAggregateInputType = {
   maxQueueSize?: true
   allowDuplicates?: true
   autoPlay?: true
+  twentyFourSeven?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -100,6 +104,7 @@ export type GuildSettingsMaxAggregateInputType = {
   maxQueueSize?: true
   allowDuplicates?: true
   autoPlay?: true
+  twentyFourSeven?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -112,6 +117,7 @@ export type GuildSettingsCountAggregateInputType = {
   maxQueueSize?: true
   allowDuplicates?: true
   autoPlay?: true
+  twentyFourSeven?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -211,6 +217,7 @@ export type GuildSettingsGroupByOutputType = {
   maxQueueSize: number
   allowDuplicates: boolean
   autoPlay: boolean
+  twentyFourSeven: boolean
   createdAt: Date
   updatedAt: Date
   _count: GuildSettingsCountAggregateOutputType | null
@@ -246,6 +253,7 @@ export type GuildSettingsWhereInput = {
   maxQueueSize?: Prisma.IntFilter<"GuildSettings"> | number
   allowDuplicates?: Prisma.BoolFilter<"GuildSettings"> | boolean
   autoPlay?: Prisma.BoolFilter<"GuildSettings"> | boolean
+  twentyFourSeven?: Prisma.BoolFilter<"GuildSettings"> | boolean
   createdAt?: Prisma.DateTimeFilter<"GuildSettings"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"GuildSettings"> | Date | string
   guild?: Prisma.XOR<Prisma.GuildScalarRelationFilter, Prisma.GuildWhereInput>
@@ -259,6 +267,7 @@ export type GuildSettingsOrderByWithRelationInput = {
   maxQueueSize?: Prisma.SortOrder
   allowDuplicates?: Prisma.SortOrder
   autoPlay?: Prisma.SortOrder
+  twentyFourSeven?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   guild?: Prisma.GuildOrderByWithRelationInput
@@ -275,6 +284,7 @@ export type GuildSettingsWhereUniqueInput = Prisma.AtLeast<{
   maxQueueSize?: Prisma.IntFilter<"GuildSettings"> | number
   allowDuplicates?: Prisma.BoolFilter<"GuildSettings"> | boolean
   autoPlay?: Prisma.BoolFilter<"GuildSettings"> | boolean
+  twentyFourSeven?: Prisma.BoolFilter<"GuildSettings"> | boolean
   createdAt?: Prisma.DateTimeFilter<"GuildSettings"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"GuildSettings"> | Date | string
   guild?: Prisma.XOR<Prisma.GuildScalarRelationFilter, Prisma.GuildWhereInput>
@@ -288,6 +298,7 @@ export type GuildSettingsOrderByWithAggregationInput = {
   maxQueueSize?: Prisma.SortOrder
   allowDuplicates?: Prisma.SortOrder
   autoPlay?: Prisma.SortOrder
+  twentyFourSeven?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.GuildSettingsCountOrderByAggregateInput
@@ -308,6 +319,7 @@ export type GuildSettingsScalarWhereWithAggregatesInput = {
   maxQueueSize?: Prisma.IntWithAggregatesFilter<"GuildSettings"> | number
   allowDuplicates?: Prisma.BoolWithAggregatesFilter<"GuildSettings"> | boolean
   autoPlay?: Prisma.BoolWithAggregatesFilter<"GuildSettings"> | boolean
+  twentyFourSeven?: Prisma.BoolWithAggregatesFilter<"GuildSettings"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"GuildSettings"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"GuildSettings"> | Date | string
 }
@@ -319,6 +331,7 @@ export type GuildSettingsCreateInput = {
   maxQueueSize?: number
   allowDuplicates?: boolean
   autoPlay?: boolean
+  twentyFourSeven?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
   guild: Prisma.GuildCreateNestedOneWithoutSettingsInput
@@ -332,6 +345,7 @@ export type GuildSettingsUncheckedCreateInput = {
   maxQueueSize?: number
   allowDuplicates?: boolean
   autoPlay?: boolean
+  twentyFourSeven?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -343,6 +357,7 @@ export type GuildSettingsUpdateInput = {
   maxQueueSize?: Prisma.IntFieldUpdateOperationsInput | number
   allowDuplicates?: Prisma.BoolFieldUpdateOperationsInput | boolean
   autoPlay?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twentyFourSeven?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   guild?: Prisma.GuildUpdateOneRequiredWithoutSettingsNestedInput
@@ -356,6 +371,7 @@ export type GuildSettingsUncheckedUpdateInput = {
   maxQueueSize?: Prisma.IntFieldUpdateOperationsInput | number
   allowDuplicates?: Prisma.BoolFieldUpdateOperationsInput | boolean
   autoPlay?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twentyFourSeven?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -368,6 +384,7 @@ export type GuildSettingsCreateManyInput = {
   maxQueueSize?: number
   allowDuplicates?: boolean
   autoPlay?: boolean
+  twentyFourSeven?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -379,6 +396,7 @@ export type GuildSettingsUpdateManyMutationInput = {
   maxQueueSize?: Prisma.IntFieldUpdateOperationsInput | number
   allowDuplicates?: Prisma.BoolFieldUpdateOperationsInput | boolean
   autoPlay?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twentyFourSeven?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -391,6 +409,7 @@ export type GuildSettingsUncheckedUpdateManyInput = {
   maxQueueSize?: Prisma.IntFieldUpdateOperationsInput | number
   allowDuplicates?: Prisma.BoolFieldUpdateOperationsInput | boolean
   autoPlay?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twentyFourSeven?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -408,6 +427,7 @@ export type GuildSettingsCountOrderByAggregateInput = {
   maxQueueSize?: Prisma.SortOrder
   allowDuplicates?: Prisma.SortOrder
   autoPlay?: Prisma.SortOrder
+  twentyFourSeven?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -424,6 +444,7 @@ export type GuildSettingsMaxOrderByAggregateInput = {
   maxQueueSize?: Prisma.SortOrder
   allowDuplicates?: Prisma.SortOrder
   autoPlay?: Prisma.SortOrder
+  twentyFourSeven?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -436,6 +457,7 @@ export type GuildSettingsMinOrderByAggregateInput = {
   maxQueueSize?: Prisma.SortOrder
   allowDuplicates?: Prisma.SortOrder
   autoPlay?: Prisma.SortOrder
+  twentyFourSeven?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -487,6 +509,7 @@ export type GuildSettingsCreateWithoutGuildInput = {
   maxQueueSize?: number
   allowDuplicates?: boolean
   autoPlay?: boolean
+  twentyFourSeven?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -498,6 +521,7 @@ export type GuildSettingsUncheckedCreateWithoutGuildInput = {
   maxQueueSize?: number
   allowDuplicates?: boolean
   autoPlay?: boolean
+  twentyFourSeven?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -525,6 +549,7 @@ export type GuildSettingsUpdateWithoutGuildInput = {
   maxQueueSize?: Prisma.IntFieldUpdateOperationsInput | number
   allowDuplicates?: Prisma.BoolFieldUpdateOperationsInput | boolean
   autoPlay?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twentyFourSeven?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -536,6 +561,7 @@ export type GuildSettingsUncheckedUpdateWithoutGuildInput = {
   maxQueueSize?: Prisma.IntFieldUpdateOperationsInput | number
   allowDuplicates?: Prisma.BoolFieldUpdateOperationsInput | boolean
   autoPlay?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  twentyFourSeven?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -550,6 +576,7 @@ export type GuildSettingsSelect<ExtArgs extends runtime.Types.Extensions.Interna
   maxQueueSize?: boolean
   allowDuplicates?: boolean
   autoPlay?: boolean
+  twentyFourSeven?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   guild?: boolean | Prisma.GuildDefaultArgs<ExtArgs>
@@ -563,6 +590,7 @@ export type GuildSettingsSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   maxQueueSize?: boolean
   allowDuplicates?: boolean
   autoPlay?: boolean
+  twentyFourSeven?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   guild?: boolean | Prisma.GuildDefaultArgs<ExtArgs>
@@ -576,6 +604,7 @@ export type GuildSettingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   maxQueueSize?: boolean
   allowDuplicates?: boolean
   autoPlay?: boolean
+  twentyFourSeven?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   guild?: boolean | Prisma.GuildDefaultArgs<ExtArgs>
@@ -589,11 +618,12 @@ export type GuildSettingsSelectScalar = {
   maxQueueSize?: boolean
   allowDuplicates?: boolean
   autoPlay?: boolean
+  twentyFourSeven?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type GuildSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "guildId" | "announceNowPlaying" | "defaultRepeatMode" | "maxQueueSize" | "allowDuplicates" | "autoPlay" | "createdAt" | "updatedAt", ExtArgs["result"]["guildSettings"]>
+export type GuildSettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "guildId" | "announceNowPlaying" | "defaultRepeatMode" | "maxQueueSize" | "allowDuplicates" | "autoPlay" | "twentyFourSeven" | "createdAt" | "updatedAt", ExtArgs["result"]["guildSettings"]>
 export type GuildSettingsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   guild?: boolean | Prisma.GuildDefaultArgs<ExtArgs>
 }
@@ -617,6 +647,7 @@ export type $GuildSettingsPayload<ExtArgs extends runtime.Types.Extensions.Inter
     maxQueueSize: number
     allowDuplicates: boolean
     autoPlay: boolean
+    twentyFourSeven: boolean
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["guildSettings"]>
@@ -1050,6 +1081,7 @@ export interface GuildSettingsFieldRefs {
   readonly maxQueueSize: Prisma.FieldRef<"GuildSettings", 'Int'>
   readonly allowDuplicates: Prisma.FieldRef<"GuildSettings", 'Boolean'>
   readonly autoPlay: Prisma.FieldRef<"GuildSettings", 'Boolean'>
+  readonly twentyFourSeven: Prisma.FieldRef<"GuildSettings", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"GuildSettings", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"GuildSettings", 'DateTime'>
 }

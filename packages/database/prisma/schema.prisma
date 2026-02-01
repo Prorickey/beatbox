@@ -32,6 +32,7 @@ model GuildSettings {
   maxQueueSize       Int     @default(100)
   allowDuplicates    Boolean @default(true)
   autoPlay           Boolean @default(true)
+  twentyFourSeven    Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
