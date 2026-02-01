@@ -3,6 +3,7 @@ import type { BeatboxClient } from "../structures/Client";
 import { broadcastState } from "../handlers/socketHandler";
 import { SocketEvents } from "@beatbox/shared";
 import { trackVoiceJoin, trackVoiceLeave } from "../utils/engagement";
+import { prisma } from "@beatbox/database";
 
 const DISCONNECT_TIMEOUT = 5 * 60 * 1000; // 5 minutes
 
@@ -98,6 +99,17 @@ export async function execute(
   );
 
   if (humanMembers === 0) {
+    // Check if 24/7 mode is enabled
+    const guildSettings = await prisma.guildSettings.findUnique({
+      where: { guildId },
+    });
+    const twentyFourSevenEnabled = guildSettings?.twentyFourSeven ?? false;
+
+    if (twentyFourSevenEnabled) {
+      console.log(`[voice] No listeners left in guild ${guildId}, but 24/7 mode is enabled — staying active`);
+      return;
+    }
+
     console.log(`[voice] No listeners left in guild ${guildId}, pausing and starting disconnect timer`);
     player.pause(true);
     startDisconnectTimer(client, guildId);
@@ -115,7 +127,18 @@ export async function execute(
   }
 }
 
-function startDisconnectTimer(client: BeatboxClient, guildId: string) {
+async function startDisconnectTimer(client: BeatboxClient, guildId: string) {
+  // Check if 24/7 mode is enabled
+  const guildSettings = await prisma.guildSettings.findUnique({
+    where: { guildId },
+  });
+  const twentyFourSevenEnabled = guildSettings?.twentyFourSeven ?? false;
+
+  if (twentyFourSevenEnabled) {
+    console.log(`[voice] 24/7 mode enabled for guild ${guildId} — skipping disconnect timer`);
+    return;
+  }
+
   // Clear any existing timer first
   const existing = client.disconnectTimers.get(guildId);
   if (existing) clearTimeout(existing);
