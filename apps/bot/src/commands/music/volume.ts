@@ -2,6 +2,7 @@ import { SlashCommandBuilder, type ChatInputCommandInteraction } from "discord.j
 import type { BeatboxClient } from "../../structures/Client";
 import { errorEmbed, successEmbed } from "../../utils/embeds";
 import { broadcastState } from "../../handlers/socketHandler";
+import { isDJOrPermitted } from "../../utils/djCheck";
 
 export const data = new SlashCommandBuilder()
   .setName("volume")
@@ -27,6 +28,8 @@ export async function execute(
     });
     return;
   }
+
+  if (!(await isDJOrPermitted(interaction, client))) return;
 
   const volume = interaction.options.getInteger("level", true);
   player.setVolume(volume);

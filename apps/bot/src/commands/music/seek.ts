@@ -3,6 +3,7 @@ import type { BeatboxClient } from "../../structures/Client";
 import { errorEmbed, successEmbed } from "../../utils/embeds";
 import { formatDuration } from "@beatbox/shared";
 import { broadcastState } from "../../handlers/socketHandler";
+import { isDJOrPermitted } from "../../utils/djCheck";
 
 export const data = new SlashCommandBuilder()
   .setName("seek")
@@ -27,6 +28,8 @@ export async function execute(
     });
     return;
   }
+
+  if (!(await isDJOrPermitted(interaction, client))) return;
 
   const seconds = interaction.options.getInteger("seconds", true);
   const ms = seconds * 1000;

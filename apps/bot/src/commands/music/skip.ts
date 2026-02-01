@@ -2,6 +2,7 @@ import { SlashCommandBuilder, type ChatInputCommandInteraction, PermissionFlagsB
 import type { BeatboxClient } from "../../structures/Client";
 import { errorEmbed, successEmbed } from "../../utils/embeds";
 import { broadcastState } from "../../handlers/socketHandler";
+import { isDJOrPermitted } from "../../utils/djCheck";
 
 export const data = new SlashCommandBuilder()
   .setName("skip")
@@ -38,8 +39,8 @@ export async function execute(
     return;
   }
 
-  // Check if user has ManageGuild permission
-  if (interaction.member && typeof interaction.member.permissions !== 'string' && interaction.member.permissions.has(PermissionFlagsBits.ManageGuild)) {
+  // Check if user has DJ permissions (DJ role, ManageGuild, or alone in VC)
+  if (await isDJOrPermitted(interaction, client, true)) {
     player.skip();
     await interaction.reply({
       embeds: [successEmbed(`Skipped **${title}**`)],
