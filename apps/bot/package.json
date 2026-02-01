@@ -1,0 +1,25 @@
+{
+  "name": "@beatbox/bot",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "bun --watch src/index.ts",
+    "build": "bun build src/index.ts --outdir dist --target bun",
+    "start": "bun dist/index.js",
+    "lint": "tsc --noEmit",
+    "deploy-commands": "bun src/utils/deploy-commands.ts"
+  },
+  "dependencies": {
+    "@beatbox/database": "workspace:*",
+    "@beatbox/shared": "workspace:*",
+    "discord.js": "^14.17.0",
+    "shoukaku": "^4.1.0",
+    "kazagumo": "^3.3.0",
+    "socket.io": "^4.8.0",
+    "dotenv": "^16.4.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.7.0"
+  }
+}

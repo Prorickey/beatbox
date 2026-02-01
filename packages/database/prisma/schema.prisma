@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Guild {
+  id        String   @id // Discord guild ID
+  name      String
+  iconUrl   String?
+  prefix    String   @default("!")
+  volume    Int      @default(80)
+  djRoleId  String?  // Role ID that can control the bot
+
+  playlists Playlist[]
+  settings  GuildSettings?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model GuildSettings {
+  id                String  @id @default(cuid())
+  guildId           String  @unique
+  guild             Guild   @relation(fields: [guildId], references: [id], onDelete: Cascade)
+
+  announceNowPlaying Boolean @default(true)
+  defaultRepeatMode  String  @default("off") // off, track, queue
+  maxQueueSize       Int     @default(500)
+  allowDuplicates    Boolean @default(true)
+  autoPlay           Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Playlist {
+  id          String         @id @default(cuid())
+  name        String
+  description String?
+  isPublic    Boolean        @default(false)
+
+  guildId     String?
+  guild       Guild?         @relation(fields: [guildId], references: [id], onDelete: Cascade)
+
+  userId      String         // Discord user ID
+
+  tracks      PlaylistTrack[]
+
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@index([userId])
+  @@index([guildId])
+}
+
+model PlaylistTrack {
+  id         String   @id @default(cuid())
+  playlistId String
+  playlist   Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+
+  title      String
+  author     String
+  duration   Int      // milliseconds
+  uri        String
+  artworkUrl String?
+  sourceName String
+  position   Int
+
+  createdAt  DateTime @default(now())
+
+  @@index([playlistId])
+}
+
+model UserPreference {
+  id     String @id // Discord user ID
+
+  theme  String @default("dark") // dark, light
+  locale String @default("en")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
