@@ -29,42 +29,42 @@ export async function handleButton(
     case "player:pause":
       player.pause(true);
       await interaction.reply({
-        embeds: [successEmbed("Paused the player.")],
+        embeds: [successEmbed("⏸️ Paused the player.")],
         ephemeral: true,
       });
       break;
     case "player:resume":
       player.pause(false);
       await interaction.reply({
-        embeds: [successEmbed("Resumed the player.")],
+        embeds: [successEmbed("▶️ Resumed the player.")],
         ephemeral: true,
       });
       break;
     case "player:skip":
       player.skip();
       await interaction.reply({
-        embeds: [successEmbed("Skipped the current track.")],
+        embeds: [successEmbed("⏭️ Skipped the current track.")],
         ephemeral: true,
       });
       break;
     case "player:stop":
       player.destroy();
       await interaction.reply({
-        embeds: [successEmbed("Stopped the player and cleared the queue.")],
+        embeds: [successEmbed("🛑 Stopped the player and cleared the queue.")],
         ephemeral: true,
       });
       break;
     case "player:previous":
       // Seek to start of current track as "previous"
-      player.seekTo(0);
+      player.seek(0);
       await interaction.reply({
-        embeds: [successEmbed("Restarted the current track.")],
+        embeds: [successEmbed("⏪ Restarted the current track.")],
         ephemeral: true,
       });
       break;
     case "player:queue":
       await interaction.reply({
-        content: `📋 **Queue:** ${player.queue.length} tracks`,
+        content: `📋 **Queue:** ${player.queue.length} track${player.queue.length === 1 ? "" : "s"}`,
         ephemeral: true,
       });
       break;

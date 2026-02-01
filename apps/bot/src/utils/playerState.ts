@@ -37,7 +37,10 @@ export function getPlayerState(
     },
     position: player.position,
     volume: player.volume,
-    repeatMode: (player.loop as any) ?? "off",
+    repeatMode:
+      (player.loop as string) === "none" || !player.loop
+        ? "off"
+        : (player.loop as "track" | "queue"),
     queue: player.queue.map((track, i) => ({
       id: track.identifier,
       title: track.title,

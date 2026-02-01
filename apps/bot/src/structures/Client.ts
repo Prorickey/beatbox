@@ -17,6 +17,13 @@ export class BeatboxClient extends Client {
   public commands: Collection<string, Command> = new Collection();
   public kazagumo: Kazagumo;
   public io: SocketServer;
+  public disconnectTimers: Map<string, Timer> = new Map();
+  public activeSessions: Map<string, string> = new Map(); // guildId -> session cuid
+  public previousTracks: Map<string, any[]> = new Map(); // guildId -> history stack
+  public currentTrackRef: Map<string, any> = new Map(); // guildId -> last known track
+  public goingPrevious: Set<string> = new Set(); // guilds currently going to previous track
+  public voiceJoinTimes: Map<string, number> = new Map(); // userId -> join timestamp (ms)
+  public voiceUpdateTimers: Map<string, Timer> = new Map(); // userId -> flush interval
 
   constructor() {
     super({

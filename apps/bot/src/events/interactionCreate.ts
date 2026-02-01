@@ -6,11 +6,15 @@ import {
 import type { BeatboxClient } from "../structures/Client";
 import { errorEmbed } from "../utils/embeds";
 import { handleButton } from "../handlers/buttonHandler";
+import { trackInteraction } from "../utils/engagement";
 
 export const name = Events.InteractionCreate;
 export const once = false;
 
 export async function execute(interaction: Interaction, client: BeatboxClient) {
+  // Fire-and-forget engagement tracking
+  trackInteraction(interaction.user.id, client);
+
   if (interaction.isChatInputCommand()) {
     await handleCommand(interaction, client);
   } else if (interaction.isButton()) {
