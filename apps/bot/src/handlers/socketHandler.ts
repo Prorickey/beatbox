@@ -218,26 +218,34 @@ export function setupSocketServer(client: BeatboxClient) {
     });
 
     socket.on(SocketEvents.AUTO_JOIN, async ({ guildId, userId }: { guildId: string; userId: string }) => {
-      const player = client.kazagumo.players.get(guildId);
-      if (player) return; // Already in a voice channel
-
       const guild = client.guilds.cache.get(guildId);
       if (!guild) return;
 
       const member = guild.members.cache.get(userId) ?? await guild.members.fetch(userId).catch(() => null);
       if (!member?.voice.channelId) return;
 
-      const textChannel = guild.channels.cache.find(
-        (ch) => ch.isTextBased() && !ch.isVoiceBased()
-      );
+      let player = client.kazagumo.players.get(guildId);
 
-      const newPlayer = await client.kazagumo.createPlayer({
-        guildId,
-        textId: textChannel?.id ?? member.voice.channelId,
-        voiceId: member.voice.channelId,
-        volume: 80,
-      });
-      await applyGuildSettings(newPlayer, guildId);
+      // If a player exists but isn't connected to voice, destroy it
+      if (player && !player.voiceId) {
+        player.destroy();
+        player = undefined;
+      }
+
+      if (!player) {
+        const textChannel = guild.channels.cache.find(
+          (ch) => ch.isTextBased() && !ch.isVoiceBased()
+        );
+
+        player = await client.kazagumo.createPlayer({
+          guildId,
+          textId: textChannel?.id ?? member.voice.channelId,
+          voiceId: member.voice.channelId,
+          volume: 80,
+        });
+        await applyGuildSettings(player, guildId);
+      }
+
       broadcastState(client, guildId);
     });
 
