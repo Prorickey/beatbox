@@ -1,6 +1,7 @@
 import { NowPlaying } from "@/components/now-playing";
 import { QueueView } from "@/components/queue-view";
 import { VolumeControl } from "@/components/volume-control";
+import { AutoJoin } from "@/components/auto-join";
 
 export default async function GuildDashboard({
   params,
@@ -11,8 +12,9 @@ export default async function GuildDashboard({
 
   return (
     <div className="container mx-auto px-6 py-8">
-      <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
-        <div className="space-y-6">
+      <AutoJoin guildId={guildId} />
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px]">
+        <div className="min-w-0 space-y-6">
           <NowPlaying guildId={guildId} />
           <VolumeControl guildId={guildId} />
         </div>

@@ -1,14 +1,69 @@
 "use client";
 
+import { useState, useRef, useEffect } from "react";
 import { usePlayer } from "@/hooks/usePlayer";
 import { Volume, Volume1, Volume2, VolumeX } from "lucide-react";
 
 export function VolumeControl({ guildId }: { guildId: string }) {
   const { state, setVolume } = usePlayer(guildId);
-  const { volume } = state;
+
+  const [isDragging, setIsDragging] = useState(false);
+  const [localVolume, setLocalVolume] = useState(state.volume);
+  const localVolumeRef = useRef(state.volume);
+  const throttleRef = useRef<ReturnType<typeof setTimeout>>();
+
+  // Sync local volume from server when not dragging
+  useEffect(() => {
+    if (!isDragging) {
+      setLocalVolume(state.volume);
+      localVolumeRef.current = state.volume;
+    }
+  }, [state.volume, isDragging]);
+
+  const displayVolume = isDragging ? localVolume : state.volume;
 
   const VolumeIcon =
-    volume === 0 ? VolumeX : volume < 30 ? Volume : volume < 70 ? Volume1 : Volume2;
+    displayVolume === 0
+      ? VolumeX
+      : displayVolume < 30
+        ? Volume
+        : displayVolume < 70
+          ? Volume1
+          : Volume2;
+
+  const handleChange = (value: number) => {
+    setLocalVolume(value);
+    localVolumeRef.current = value;
+
+    // Throttle: emit at most once per 150ms while dragging
+    if (throttleRef.current) return;
+    setVolume(value);
+    throttleRef.current = setTimeout(() => {
+      throttleRef.current = undefined;
+    }, 150);
+  };
+
+  const handlePointerDown = () => {
+    setIsDragging(true);
+  };
+
+  // Listen for pointer up on the window so we catch it even if the
+  // cursor moves off the slider during the drag.
+  useEffect(() => {
+    if (!isDragging) return;
+
+    const handlePointerUp = () => {
+      clearTimeout(throttleRef.current);
+      throttleRef.current = undefined;
+
+      // Send the final definitive value
+      setVolume(localVolumeRef.current);
+      setIsDragging(false);
+    };
+
+    window.addEventListener("pointerup", handlePointerUp);
+    return () => window.removeEventListener("pointerup", handlePointerUp);
+  }, [isDragging, setVolume]);
 
   return (
     <div className="flex items-center gap-4 rounded-xl border bg-card px-6 py-4">
@@ -18,12 +73,15 @@ export function VolumeControl({ guildId }: { guildId: string }) {
           type="range"
           min={0}
           max={100}
-          value={volume}
-          onChange={(e) => setVolume(Number(e.target.value))}
+          value={displayVolume}
+          onChange={(e) => handleChange(Number(e.target.value))}
+          onPointerDown={handlePointerDown}
           className="w-full accent-primary"
         />
       </div>
-      <span className="w-10 text-right text-sm font-medium">{volume}%</span>
+      <span className="w-10 text-right text-sm font-medium">
+        {displayVolume}%
+      </span>
     </div>
   );
 }
