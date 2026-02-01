@@ -12,6 +12,7 @@ import {
 } from "@beatbox/shared";
 import { errorEmbed, successEmbed, trackAddedEmbed } from "../../utils/embeds";
 import { broadcastState } from "../../handlers/socketHandler";
+import { applyGuildSettings } from "../../utils/guildSettings";
 
 export const data = new SlashCommandBuilder()
   .setName("playlist")
@@ -501,6 +502,7 @@ async function handlePlay(
       voiceId: voiceChannel.id,
       volume: 80,
     });
+    await applyGuildSettings(player, interaction.guildId!);
   }
 
   const totalDuration = playlist.tracks.reduce((s, t) => s + t.duration, 0);
