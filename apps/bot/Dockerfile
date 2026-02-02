@@ -1,7 +1,7 @@
 FROM oven/bun:1.3.6-alpine AS build
 WORKDIR /app
 
-COPY package.json bun.lock turbo.json ./
+COPY package.json bun.lock turbo.json tsconfig.base.json ./
 COPY apps/bot/package.json apps/bot/
 COPY apps/dashboard/package.json apps/dashboard/
 COPY packages/database/package.json packages/database/
