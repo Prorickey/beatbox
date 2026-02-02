@@ -14,5 +14,12 @@ COPY packages/shared packages/shared
 COPY apps/bot apps/bot
 
 RUN bun run db:generate
+RUN cd apps/bot && bun run build
 
-CMD ["bun", "apps/bot/src/index.ts"]
+FROM oven/bun:1.3.6-alpine
+WORKDIR /app
+
+COPY --from=build /app/apps/bot/dist ./dist
+COPY --from=build /app/packages/database/src/generated/prisma ./packages/database/src/generated/prisma
+
+CMD ["bun", "dist/index.js"]
