@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  output: "standalone",
   transpilePackages: ["@beatbox/shared", "@beatbox/database"],
   images: {
     remotePatterns: [

@@ -1,0 +1,66 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches: [main]
+
+env:
+  REGISTRY: docker.bedson.tech
+
+jobs:
+  build-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: tbedson-deploy
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: apps/bot/Dockerfile
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/tbedson-deploy/beatbox-bot:latest
+            ${{ env.REGISTRY }}/tbedson-deploy/beatbox-bot:${{ github.sha }}
+
+  build-dashboard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: tbedson-deploy
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: apps/dashboard/Dockerfile
+          push: true
+          build-args: |
+            NEXT_PUBLIC_SOCKET_URL=${{ secrets.NEXT_PUBLIC_SOCKET_URL }}
+          tags: |
+            ${{ env.REGISTRY }}/tbedson-deploy/beatbox-dashboard:latest
+            ${{ env.REGISTRY }}/tbedson-deploy/beatbox-dashboard:${{ github.sha }}
+
+  deploy:
+    needs: [build-bot, build-dashboard]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /opt/deployments/beatbox
+            docker compose pull
+            docker compose up -d --remove-orphans
