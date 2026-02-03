@@ -1,0 +1,13 @@
+FROM oven/bun:1.3.6-alpine
+WORKDIR /app
+
+COPY package.json bun.lock turbo.json tsconfig.base.json ./
+COPY packages/database/package.json packages/database/
+
+RUN bun install --frozen-lockfile
+
+COPY packages/database/prisma packages/database/prisma
+COPY packages/database/prisma.config.ts packages/database/prisma.config.ts
+
+WORKDIR /app/packages/database
+CMD ["bunx", "prisma", "migrate", "deploy"]

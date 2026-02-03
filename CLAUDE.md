@@ -53,6 +53,21 @@ bun run db:generate     # Generate Prisma client after schema changes
 bun run db:push         # Push schema to database (no migration)
 bun run db:studio       # Open Prisma Studio GUI
 cd packages/database && bun run db:migrate  # Create a migration
+cd packages/database && bun run db:deploy   # Apply pending migrations (used in production)
+```
+
+### Migration Workflow
+
+Migrations are managed via Prisma Migrate and run automatically on deploy:
+
+1. Edit `packages/database/prisma/schema.prisma`
+2. Run `cd packages/database && bun run db:migrate` (creates a migration SQL file and applies it to your dev DB)
+3. Commit the generated files in `packages/database/prisma/migrations/`
+4. On deploy, the `migrate` service in `docker-compose.prod.yml` runs `prisma migrate deploy` automatically before the bot and dashboard start
+
+For an existing production database that was set up with `db:push`, baseline the first migration:
+```bash
+bunx prisma migrate resolve --applied 20260203000000_initial_schema
 ```
 
 ### Bot Slash Commands

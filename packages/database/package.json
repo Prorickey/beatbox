@@ -9,6 +9,7 @@
     "db:push": "prisma generate && prisma db push",
     "db:studio": "prisma studio",
     "db:migrate": "prisma generate && prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
     "lint": "tsc --noEmit"
   },
   "dependencies": {

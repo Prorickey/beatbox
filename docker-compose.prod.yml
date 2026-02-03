@@ -16,8 +16,10 @@ services:
       # Socket.io
       SOCKET_PORT: 3001
     depends_on:
-      - postgres
-      - lavalink
+      migrate:
+        condition: service_completed_successfully
+      lavalink:
+        condition: service_started
     restart: unless-stopped
 
   dashboard:
@@ -34,8 +36,20 @@ services:
       NEXTAUTH_URL: https://beatbox.bedson.tech
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
     depends_on:
-      - postgres
+      migrate:
+        condition: service_completed_successfully
     restart: unless-stopped
+
+  migrate:
+    build:
+      context: .
+      dockerfile: packages/database/Dockerfile.migrate
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-beatbox}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
 
   postgres:
     image: postgres:16-alpine
@@ -47,6 +61,11 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-beatbox}
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-beatbox}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
     restart: unless-stopped
 
   lavalink:
